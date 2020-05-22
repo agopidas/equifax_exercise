@@ -27,5 +27,20 @@ variable "ami" {
 
 variable "key_path" {
   description = "SSH Public Key path"
-  default = "./keys/region-nyc"
+  default = "./keys/region-nyc.pub"
+}
+
+variable "asg_max" {
+  description = "Max numbers of servers in ASG"
+  default = "2"
+}
+
+variable "asg_desired" {
+  description = "Desired numbers of servers in ASG"
+  default = "1"
+}
+
+variable "asg_min" {
+  description = "Min numbers of servers in ASG"
+  default = "1"
 }
