@@ -3,8 +3,7 @@ Assuming AWS CLI with credentaials are already setup on a machine
 
 
 # Clone the Terraform Code and create this key before executing the Scripts
-> touch keys
-> ssh-keygen -b 2048 -f ./keys/region-nyc
+touch keys && ssh-keygen -b 2048 -f ./keys/region-nyc
 
 terraform init
 
