@@ -21,7 +21,7 @@ variable "private_subnet_cidr" {
 variable "ami" {
   description = "Amazon Linux AMI"
   default = {
-        us-east-1 = "ami-0c2a1acae6667e438"
+        us-east-1 = "ami-085925f297f89fce1"
     }
 }
 

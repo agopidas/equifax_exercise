@@ -56,12 +56,14 @@ resource "aws_s3_bucket_object" "webserver_script" {
   # The filemd5() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
   # etag = "${md5(file("path/to/file"))}"
-  #etag = filemd5("path/to/file")
+  content_type = "text/x-shellscript"
+  etag = filemd5("./webserver.sh")
 }
 
 data "aws_s3_bucket_object" "webserver_user_data" {
   bucket = aws_s3_bucket.equifax-ag-deploy-config.id
-  key    = aws_s3_bucket_object.webserver_script.id
+  key   = aws_s3_bucket_object.webserver_script.id
+  #key    = "webserver.sh"
 }
 
 resource "aws_launch_configuration" "web_lc" {
@@ -72,6 +74,7 @@ resource "aws_launch_configuration" "web_lc" {
   security_groups = [aws_security_group.elb.id]
   user_data     = data.aws_s3_bucket_object.webserver_user_data.body
   key_name      = aws_key_pair.default.id
+  associate_public_ip_address = true
 }
 
 resource "aws_security_group" "elb" {
@@ -102,5 +105,10 @@ resource "aws_security_group" "elb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+output "this_lb_dns_name" {
+  description = "The DNS name of the load balancer."
+  value       = concat(aws_elb.web_elb.this.*.dns_name, [""])[0]
 }
 
