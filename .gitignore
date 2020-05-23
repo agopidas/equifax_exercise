@@ -2,3 +2,5 @@ keys
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+tfdestroy
+tfplan

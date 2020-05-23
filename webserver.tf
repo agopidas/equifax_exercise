@@ -49,13 +49,27 @@ resource "aws_s3_bucket" "equifax-ag-deploy-config" {
   }
 }
 
+# create an S3 bucket to store the state file in
+resource "aws_s3_bucket" "terraform-ag-s3-equifax" {
+    bucket = "equifax-ag-terraform-s3-05232020"
+    acl = "private"
+
+    tags = {
+      Name = "S3 Equifax AG State Store"
+      Environment = "prod"
+    }      
+}
+
+resource "aws_s3_bucket_object" "terraform-ag-s3-equifax-object" {
+  bucket = aws_s3_bucket.terraform-ag-s3-equifax.id
+  key    = "terraform.tfstate"
+  #source = "./terraform.tfstate"
+}
+
 resource "aws_s3_bucket_object" "webserver_script" {
   bucket = aws_s3_bucket.equifax-ag-deploy-config.id
   key    = "webserver.sh"
   source = "./webserver.sh"
-  # The filemd5() function is available in Terraform 0.11.12 and later
-  # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
-  # etag = "${md5(file("path/to/file"))}"
   content_type = "text/x-shellscript"
   etag = filemd5("./webserver.sh")
 }
@@ -63,7 +77,6 @@ resource "aws_s3_bucket_object" "webserver_script" {
 data "aws_s3_bucket_object" "webserver_user_data" {
   bucket = aws_s3_bucket.equifax-ag-deploy-config.id
   key   = aws_s3_bucket_object.webserver_script.id
-  #key    = "webserver.sh"
 }
 
 resource "aws_launch_configuration" "web_lc" {
@@ -107,4 +120,7 @@ resource "aws_security_group" "elb" {
   }
 }
 
+output "instance_dns_name" {
+  value = aws_elb.web_elb.dns_name
+}
 
