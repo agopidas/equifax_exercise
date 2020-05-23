@@ -1,9 +1,11 @@
 # Initialise the configuration
-terraform init -input=false
+#terraform init -input=false
 # Plan and deploy
-terraform plan -input=false -out=tfplan
-terraform apply tfplan
-terraform apply tfplan
+#terraform plan -input=false -out=tfplan
+#terraform apply tfplan
+
+#terraform apply tfplan
+
 dns_name=$(terraform output instance_dns_name)
 
 function test {
@@ -19,5 +21,5 @@ test $dns_name
 # Find your results in the Terraform output
 
 # Once finished, destroy the server
-terraform plan -destroy -out=tfdestroy
-terraform apply tfdestroy
+#terraform plan -destroy -out=tfdestroy
+#terraform apply tfdestroy
