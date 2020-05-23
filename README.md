@@ -19,6 +19,8 @@ webserver
 touch keys
 ssh-keygen -b 2048 -f ./keys/region-nyc
 
+touch keys && ssh-keygen -b 2048 -f ./keys/region-nyc
+
 terraform init
 
 terraform plan
