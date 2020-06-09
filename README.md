@@ -1,4 +1,4 @@
-# Equifax_exercise
+# IAC_exercise
 Assuming AWS CLI with credentaials are already setup on a machine
 
 This assignment can be done for cloud environments - AWS or GCP using Terraform only. Please share the terraform script created via email/GitHub.
